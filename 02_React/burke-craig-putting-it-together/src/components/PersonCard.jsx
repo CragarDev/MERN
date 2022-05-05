@@ -9,7 +9,7 @@ class PersonCard extends Component {
   }
 
   render () {
-    const { ...card } = this.props
+    const { lastName, firstName, hairColor } = this.props
 
     const increaseBirthday = () => {
       this.setState({
@@ -22,20 +22,20 @@ class PersonCard extends Component {
         <ul>
           <li>
             <h1>
-              {card.lastName}, {card.firstName}
+              {lastName}, {firstName}
             </h1>
           </li>
           <li>
-            <h3>Age: {this.state.age}</h3>
+            <h3>Age: {age}</h3>
           </li>
           <li>
-            <h3>Hair Color: {card.hairColor}</h3>
+            <h3>Hair Color: {hairColor}</h3>
           </li>
         </ul>
         <br />
         <button onClick={increaseBirthday}>
           <span>
-            Birthday for {card.firstName} {card.lastName}
+            Birthday for {firstName} {lastName}
           </span>
         </button>
         <hr />
