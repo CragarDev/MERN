@@ -21,7 +21,7 @@ const TodoList = () => {
     }
     console.log('newTodo', newTodo)
     // push the newTodo object into the todoListings array
-    setTodoListings([...todoListings, newTodo])
+    setTodoListings([newTodo, ...todoListings])
 
     // clear the input field
     setTodoTitle('')
@@ -29,7 +29,8 @@ const TodoList = () => {
   // function to change the state of the isCompleted property from false to true
   const toggleTodoCompletion = (e, index) => {
     let [...copyTodoListings] = todoListings
-    copyTodoListings[index].isCompleted = !copyTodoListings[index].isCompleted
+    copyTodoListings[index].isCompleted = e.target.checked
+    setIsCompleted(e.target.checked)
     setTodoListings(copyTodoListings)
   }
 
@@ -38,6 +39,7 @@ const TodoList = () => {
     let filteredCopy = todoListings.filter((todo, i) => {
       return i !== index
     })
+    setIsCompleted(false)
     setTodoListings(filteredCopy)
   }
 
@@ -70,16 +72,12 @@ const TodoList = () => {
         </form>
       </div>
       <br />
+      {/* task listings */}
       <div className='container align-items-center'>
         <ul className='list-group"'>
+          {/* looping through the list of tasks */}
           {todoListings.map((todo, index) => (
-            <li
-              className='list-group-item'
-              key={index}
-              style={{
-                textDecoration: todo.isCompleted ? 'line-through' : 'none'
-              }}
-            >
+            <li className='list-group-item' key={index}>
               <label class='container'>
                 <h3
                   className=''
@@ -91,7 +89,9 @@ const TodoList = () => {
                     // backgroundColor: todo.isCompleted ? 'blue' : null
                   }}
                 >
+                  {/* this is the task text */}
                   {todo.todoTitle}
+                  {/* checks to see if isCompleted is T or F */}
                   {todo.isCompleted ? (
                     <span>
                       <svg
@@ -107,6 +107,7 @@ const TodoList = () => {
                     </span>
                   ) : null}
                 </h3>
+                {/* this is the checkbox to show completed or not */}
                 <input
                   class='form-check-input me-1'
                   type='checkbox'
