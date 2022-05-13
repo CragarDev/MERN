@@ -10,7 +10,7 @@ const Number = () => {
       {isNaN(var1) ? (
         color1 === undefined ? (
           <div className='App mt-5'>
-            <h1 className='text-warning'>The word is: {var1}</h1>
+            <h1 className='text-red'>The word is: {var1}</h1>
           </div>
         ) : (
           <div className='App mt-5'>
