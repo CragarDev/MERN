@@ -74,6 +74,23 @@ module.exports.getOneRandomJoke = (req, res) => {
     })
     .catch((err) => res.json({ message: "COUNT OF JOKES IN RANDOM: Something went wrong", error: err }));
 };
+//
+// version 2 for the random joke
+//* :::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//* ::::::::::::::: GET ONE RANDOM JOKE - v2 -  (READ)  ---------------------
+//* :::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+// get random joke
+module.exports.getOneRandomJoke2 = (req, res) => {
+  Joke.find()
+    .then((allJokes) => {
+      // get a random number from index 0 up to but not including the allJokes.length
+      let randomIdx = Math.floor(Math.random() * allJokes.length);
+      // return the joke at the random index
+      res.json({ results: allJokes[randomIdx] });
+    })
+    .catch((err) => res.json({ message: "RANDOM JOKE V2: Something went wrong", error: err }));
+};
 
 //
 //n- :::::::::::::::::::::::::::::::::::::::::::::::::::::::
