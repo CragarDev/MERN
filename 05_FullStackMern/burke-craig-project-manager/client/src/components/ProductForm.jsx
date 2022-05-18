@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 
-const ProductForm = () => {
+const ProductForm = props => {
   // create the state variables
   const [title, setTitle] = useState('')
   const [price, setPrice] = useState('')
@@ -41,7 +41,7 @@ const ProductForm = () => {
           setPrice('')
           setDescription('')
           setErrors({})
-          history.push('/products')
+          props.setNewProductToggle(!props.newProductToggle)
         }
       })
       .catch(err => {

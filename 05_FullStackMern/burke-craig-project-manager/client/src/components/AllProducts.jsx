@@ -2,10 +2,16 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
-const AllProducts = () => {
+const AllProducts = props => {
   // create a state variable to store the products
   const [allProducts, setAllProducts] = useState([])
   // get all the products using a promise of axios .get .then and .catch
+
+  // toggle to reset the state after deleting a product
+  const [deleteToggle, setDeleteToggle] = useState(false)
+
+  // get the newProductToggle from the props
+  // const newProductToggle = props.newProductToggle
 
   useEffect(() => {
     axios
@@ -17,7 +23,31 @@ const AllProducts = () => {
       .catch(err => {
         console.log('ALLPRODUCTS: Error', err)
       })
-  }, [])
+  }, [deleteToggle, props.newProductToggle])
+
+  // create a function to delete a product
+  const deleteProductNoConfirm = _id => {
+    console.log('DELETEPRODUCT NO CONFIRM: id', _id)
+    axios
+      .delete(`http://localhost:8000/api/products/delete/${_id}`)
+      .then(res => {
+        console.log('DELETEPRODUCT NO CONFIRM: Response', res.data)
+        // set the toggle to the opposite of what it was to run the list call again
+        setDeleteToggle(!deleteToggle)
+      })
+      .catch(err => {
+        console.log('DELETEPRODUCT NO CONFIRM: Error', err)
+      })
+  }
+
+  // number formatter for price
+  const priceFormatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2
+  })
+
+  // {priceFormatter.format(price)}
 
   return (
     <>
@@ -34,18 +64,25 @@ const AllProducts = () => {
                   <h2>{product.title}</h2>
                 </Link>
 
-                <h4>price: {product.price}</h4>
+                <h4>
+                  price:
+                  <span className='ms-1 text-warning'>
+                    {priceFormatter.format(product.price)}
+                  </span>
+                </h4>
                 <p>description: {product.description}</p>
 
-                {/* <p>
+                {/* Update and delete buttons */}
+                <p>
                   <Link
                     to={`/products/update/${product._id}`}
-                    className='btn btn-outline-warning btn-sm'
+                    className='btn btn-outline-info btn-sm'
                   >
                     Update {product.title}
                   </Link>
                 </p>
-                <p>
+                {/* this delete would take me to a confirm delete page */}
+                {/* <p>
                   <Link
                     to={`/products/delete/${product._id}`}
                     className='btn btn-outline-danger btn-sm'
@@ -53,6 +90,16 @@ const AllProducts = () => {
                     Delete {product.title}
                   </Link>
                 </p> */}
+                <p>
+                  <button
+                    onClick={e => {
+                      deleteProductNoConfirm(product._id)
+                    }}
+                    className='btn btn-outline-danger btn-sm'
+                  >
+                    Delete Product {product.title}
+                  </button>
+                </p>
               </div>
             </div>
           ))}
