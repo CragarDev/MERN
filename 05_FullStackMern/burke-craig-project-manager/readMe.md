@@ -1,3 +1,8 @@
+# Product Manager Assignment Stage 2
+
+![screenShot65](./assets/images/myScreenShot65.png)
+![screenShot66](./assets/images/myScreenShot66.png)
+
 # Product Manager Assignment Stage 1
 
 <!-- ![screenRec07](./src/images/myScreenRecording07.gif) -->
