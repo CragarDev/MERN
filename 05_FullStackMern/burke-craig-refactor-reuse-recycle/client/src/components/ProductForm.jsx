@@ -1,15 +1,30 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
-const ProductForm = props => {
+const ProductForm = ({
+  props,
+  titleColorStyle,
+  buttonText,
+  buttonColorStyle,
+  formTitle,
+  submissionMethod
+}) => {
   // create the state variables
   const [title, setTitle] = useState('')
   const [price, setPrice] = useState('')
   const [description, setDescription] = useState('')
+  // const [titleColorStyle, setTitleColorStyle] = useState('')
+
+  // create state variables for the form inputs
+  const [productInfo, setProductInfo] = useState({})
 
   // set error state variable
   const [errors, setErrors] = useState({})
+
+  // get the id from the url using the useParams hook to use for the update
+  const { _id } = useParams()
 
   // create history object
   const history = useHistory()
@@ -27,34 +42,62 @@ const ProductForm = props => {
     }
 
     // use axios to post the product
-    axios
-      .post('http://Localhost:8000/api/products/new', product)
-      .then(res => {
-        console.log('PRODUCT FORM: Response after posting the form', res)
+    if (submissionMethod === 'post') {
+      console.log('posting product')
+      axios
+        .post(`http://Localhost:8000/api/products/new`, product)
+        .then(res => {
+          console.log('PRODUCT FORM: Response after posting the form', res)
 
-        if (res.data.error) {
-          console.log('PRODUCT FORM: Error:', res.data.error)
-          setErrors(res.data.error.errors)
-        } else {
-          // clear the form
-          setTitle('')
-          setPrice('')
-          setDescription('')
-          setErrors({})
-          props.setNewProductToggle(!props.newProductToggle)
-          history.push('/products')
-        }
-      })
-      .catch(err => {
-        console.log('PRODUCT FORM: Error:', err)
-      })
-    console.log('PRODUCT FORM: Submitted')
+          if (res.data.error) {
+            console.log('PRODUCT FORM: Error:', res.data.error)
+            setErrors(res.data.error.errors)
+          } else {
+            // clear the form
+            setTitle('')
+            setPrice('')
+            setDescription('')
+            setErrors({})
+            props.setNewProductToggle(!props.newProductToggle)
+            history.push('/products')
+          }
+        })
+        .catch(err => {
+          console.log('PRODUCT FORM: Error:', err)
+        })
+      console.log('PRODUCT FORM: Submitted')
+    } else if (submissionMethod === 'put') {
+      console.log('putting product')
+      axios
+        .put(`http://localhost:8000/api/products/${_id}`, productInfo)
+        .then(res => {
+          console.log(
+            'UPDATE PRODUCT: Response after updating the product',
+            res
+          )
+          if (res.data.error) {
+            console.log('PRODUCT UPDATE FORM: Error:', res.data.error)
+            setErrors(res.data.error.errors)
+          } else {
+            setProductInfo(product)
+            setErrors({})
+            setProductInfo({})
+            history.push(`/products`) // this will take us to the products list
+          }
+        })
+        .catch(err => {
+          console.log('UPDATE PRODUCT: Error after updating the product', err)
+        })
+    }
   }
 
   return (
     <>
       <div>
-        <h1>Product Form</h1>
+        <h1>
+          {/* Form Title */}
+          {formTitle} <span className={`text-${titleColorStyle}`}>{title}</span>
+        </h1>
       </div>
       <div className='container'>
         <form onSubmit={handleSubmit} className='text-start'>
@@ -105,13 +148,32 @@ const ProductForm = props => {
             <p className='text-danger'>{errors.description?.message} </p>
           </div>
 
-          <button type='submit' className='btn btn-primary'>
-            Submit Product
+          <button type='submit' className={`btn btn-${buttonColorStyle}`}>
+            {/* Submit Product */}
+            {buttonText}
           </button>
         </form>
       </div>
     </>
   )
+}
+
+// default props
+ProductForm.defaultProps = {
+  titleColorStyle: 'danger',
+  buttonText: 'Submit',
+  buttonColorStyle: 'success',
+  formTitle: 'Product Form Title:',
+  submissionMethod: 'post'
+}
+
+// prop types
+ProductForm.propTypes = {
+  titleColorStyle: PropTypes.string,
+  buttonText: PropTypes.string.isRequired,
+  buttonColorStyle: PropTypes.string,
+  formTitle: PropTypes.string.isRequired,
+  submissionMethod: PropTypes.string.isRequired
 }
 
 export default ProductForm

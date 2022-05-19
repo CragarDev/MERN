@@ -7,10 +7,13 @@ import AllProducts from "./components/AllProducts";
 import OneProduct from "./components/OneProduct";
 import Button from "./components/Button";
 import UpdateProductForm from "./components/UpdateProductForm";
+import NewProduct from "./components/NewProduct";
 
 function App() {
   // set up a toggle for after the ProductForm is submitted
   const [newProductToggle, setNewProductToggle] = useState(false);
+  // state variables to use for the new product / update product forms
+  // const [titleColorStyle, setTitleColorStyle] = useState("");
 
   return (
     <BrowserRouter>
@@ -26,6 +29,15 @@ function App() {
         <hr />
 
         <Switch>
+          {/* route to try out the new form - NewProduct */}
+          <Route exact path="/new-product">
+            {/* sending the product toggle and the setter to the form */}
+            <NewProduct newProductToggle={newProductToggle} setNewProductToggle={setNewProductToggle} />
+            <hr />
+            {/* sending the toggle to the AllProducts */}
+            {/* <AllProducts newProductToggle={newProductToggle} /> */}
+          </Route>
+
           <Route exact path="/">
             {/* sending the product toggle and the setter to the form */}
             <ProductForm newProductToggle={newProductToggle} setNewProductToggle={setNewProductToggle} />
@@ -41,7 +53,7 @@ function App() {
           <Route exact path="/products/new">
             <hr />
             {/* sending the product toggle and the setter to the form */}
-            <ProductForm newProductToggle={newProductToggle} setNewProductToggle={setNewProductToggle} />
+            <ProductForm titleColorStyle="success" buttonText="Submit New Product" buttonColorStyle="success" newProductToggle={newProductToggle} setNewProductToggle={setNewProductToggle} />
           </Route>
           <Route exact path="/products/:_id">
             <h3>Details Page</h3>
