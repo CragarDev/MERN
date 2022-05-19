@@ -37,7 +37,9 @@ const AllAuthors = props => {
   return (
     <>
       <div className='container'>
-        <h3 className='text-start'>We have quotes by these authors:</h3>
+        <h3 className='text-start text-info'>
+          We have quotes by these authors:
+        </h3>
       </div>
       <table className='table'>
         <thead>

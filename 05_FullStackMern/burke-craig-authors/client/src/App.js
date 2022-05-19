@@ -6,6 +6,8 @@ import Button from "./components/Button";
 import AllAuthors from "./components/AllAuthors";
 import NewAuthor from "./components/NewAuthor";
 import EditAuthor from "./components/EditAuthor";
+import EditError from "./components/EditError";
+import PageError from "./components/PageError";
 
 function App() {
   // set up a toggle for the new author form
@@ -40,6 +42,12 @@ function App() {
             </Link>
             <hr />
             <EditAuthor />
+          </Route>
+          <Route path="/editError/:_id">
+            <EditError />
+          </Route>
+          <Route path="/:anythingelse">
+            <PageError />
           </Route>
         </Switch>
       </div>

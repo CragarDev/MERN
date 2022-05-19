@@ -31,6 +31,9 @@ const NewAuthor = props => {
       })
       .catch(err => {
         console.log('AUTHOR FORM: Error getting the author at that id: ', err)
+        if ((err.name = 'CastError')) {
+          history.push(`/editError/${_id}`)
+        }
       })
   }, [_id])
 
