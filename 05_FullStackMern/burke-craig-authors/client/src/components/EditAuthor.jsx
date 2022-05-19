@@ -27,13 +27,14 @@ const NewAuthor = props => {
           'AUTHOR FORM: Response after getting author at that id: ',
           res
         )
+        if (res.data.error) {
+          history.push(`/editError/${_id}`)
+        }
+
         setAuthorInfo(res.data.results)
       })
       .catch(err => {
         console.log('AUTHOR FORM: Error getting the author at that id: ', err)
-        if ((err.name = 'CastError')) {
-          history.push(`/editError/${_id}`)
-        }
       })
   }, [_id])
 

@@ -7,7 +7,11 @@ module.exports = (app) => {
   // testing connection with sayHello
   app.get("/api/hello", AuthorControllers.sayHello);
   // getting all the author
-  app.get("/api/authors", AuthorControllers.getAllAuthors);
+  app.get("/api/authors/none", AuthorControllers.getAllAuthors);
+  // getting all the authors sorted ascending
+  app.get("/api/authors/sortedAsc", AuthorControllers.getAllAuthorsSortedAsc);
+  // getting all the authors sorted descending
+  app.get("/api/authors/sortedDesc", AuthorControllers.getAllAuthorsSortedDesc);
   // // getting authors count
   app.get("/api/authors/count", AuthorControllers.getCountOfAuthors);
   // // getting one random author

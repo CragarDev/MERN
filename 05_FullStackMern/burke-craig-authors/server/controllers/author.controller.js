@@ -35,6 +35,32 @@ module.exports.getAllAuthors = (req, res) => {
 
 //
 //* :::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//* ::::::::::::::: GET ALL Authors SortedAsc (READ)  ---------------------
+//* :::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+// get all Authors
+module.exports.getAllAuthorsSortedAsc = (req, res) => {
+  Author.find()
+    .sort({ author: 1 })
+    .then((allAuthors) => res.json({ results: allAuthors }))
+    .catch((err) => res.json({ message: "FIND ALL AuthorS: Something went wrong", error: err }));
+};
+
+//
+//* :::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//* ::::::::::::::: GET ALL Authors SortedDesc (READ)  ---------------------
+//* :::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+// get all Authors
+module.exports.getAllAuthorsSortedDesc = (req, res) => {
+  Author.find()
+    .sort({ author: -1 })
+    .then((allAuthors) => res.json({ results: allAuthors }))
+    .catch((err) => res.json({ message: "FIND ALL AuthorS: Something went wrong", error: err }));
+};
+
+//
+//* :::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //* ::::::::::::::: GET ONE Author (READ)  ---------------------
 //* :::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
